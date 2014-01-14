@@ -1,8 +1,8 @@
 ONTOLOGY SOURCE REFERENCE
-Term Source Name	"OBI"	"EFO"	"NCBITaxon"	"UO"	"CHEBI"	"MS"	
-Term Source File	""	"http://bioportal.bioontology.org/ontologies/50608"	"http://bioportal.bioontology.org/ontologies/47845"	"http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=UO"	"http://bioportal.bioontology.org/ontologies/50716"	"http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=MS"	
-Term Source Version	""	"50608"	"47845"	"Jun 2010"	"50716"	"Jun 2010"	
-Term Source Description	""	"Experimental Factor Ontology"	"National Center for Biotechnology Information (NCBI) Organismal Classification"	"Unit Ontology"	"Chemical Entities of Biological Interest Ontology"	"PSI Mass Spectrometry Ontology"	
+Term Source Name	"OBI"	"EFO"	"NCBITaxon"	"UO"	"CHEBI"	"MS"	"PO"	
+Term Source File	""	"http://bioportal.bioontology.org/ontologies/50608"	"http://bioportal.bioontology.org/ontologies/47845"	"http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=UO"	"http://bioportal.bioontology.org/ontologies/50716"	"http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=MS"	"http://bioportal.bioontology.org/ontologies/50642"	
+Term Source Version	""	"50608"	"47845"	"Jun 2010"	"50716"	"Jun 2010"	"50642"	
+Term Source Description	""	"Experimental Factor Ontology"	"National Center for Biotechnology Information (NCBI) Organismal Classification"	"Unit Ontology"	"Chemical Entities of Biological Interest Ontology"	"PSI Mass Spectrometry Ontology"	"Plant Ontology"	
 INVESTIGATION
 Investigation Identifier	""
 Investigation Title	"Investigation"
@@ -10,7 +10,7 @@ Investigation Description	""
 Investigation Submission Date	""
 Investigation Public Release Date	""
 Comment [Created with configuration]	""
-Comment [Last Opened With Configuration]	"IPB"
+Comment [Last Opened With Configuration]	"MetaboLightsConfig20130507"
 Comment [Created With Configuration]	"/vol/bioinvindex/config/isaconfig-Scientific-Data-v1"
 INVESTIGATION PUBLICATIONS
 Investigation PubMed ID	""
