@@ -17,7 +17,7 @@ Database ID
 Database URI													
 													
 [SCD]													
-Sample Name	Organism	Term Source REF	Term Source ID	Characteristic[Organism part]	Term Source REF	Term Source ID	Comment[other]	Comment[other]	Term Source REF	Term Source ID	Comment[other]	Term Source REF	Term Source ID
+Sample Name	Organism	Term Source REF	Term Source ID	Characteristic[Organism part]	Term Source REF	Term Source ID	Characteristic[strain]	Characteristic[inoculation]	Term Source REF	Term Source ID	Characteristic[hours after inoculation]	Term Source REF	Term Source ID
 1	Arabidopsis thaliana	NCBITaxon	3702	rosette leaf	PO	PO:0000014	gl1	water	EFO	OBI:CHEBI_15377	6	UO	UO:0000032
 10	Arabidopsis thaliana	NCBITaxon	3702	rosette leaf	PO	PO:0000014	D	Phytophthora infestans	EFO	http://purl.obolibrary.org/obo/NCBITaxon_4787	6	UO	UO:0000032
 11	Arabidopsis thaliana	NCBITaxon	3702	rosette leaf	PO	PO:0000014	erp1	Phytophthora infestans	EFO	http://purl.obolibrary.org/obo/NCBITaxon_4787	6	UO	UO:0000032
