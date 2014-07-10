@@ -1,8 +1,8 @@
 ONTOLOGY SOURCE REFERENCE
-Term Source Name	"MS"	"EFO"	"OBI"	"PO"	"UO"	
-Term Source File	"http://data.bioontology.org/ontologies/MS"	"http://data.bioontology.org/ontologies/EFO"	"http://data.bioontology.org/ontologies/OBI"	"http://data.bioontology.org/ontologies/PO"	"http://data.bioontology.org/ontologies/UO"	
-Term Source Version	"83"	"111"	"21"	"10"	"42"	
-Term Source Description	"Mass Spectrometry Ontology"	"Experimental Factor Ontology"	"Ontology for Biomedical Investigations"	"Plant Ontology"	"Units of Measurement Ontology"	
+Term Source Name	"MS"	"EFO"	"OBI"	"PO"	"UO"	"CHEBI"
+Term Source File	"http://data.bioontology.org/ontologies/MS"	"http://data.bioontology.org/ontologies/EFO"	"http://data.bioontology.org/ontologies/OBI"	"http://data.bioontology.org/ontologies/PO"	"http://data.bioontology.org/ontologies/UO"	"http://data.bioontology.org/ontologies/CHEBI"
+Term Source Version	"83"	"111"	"21"	"10"	"42"	"78"
+Term Source Description	"Mass Spectrometry Ontology"	"Experimental Factor Ontology"	"Ontology for Biomedical Investigations"	"Plant Ontology"	"Units of Measurement Ontology"	"Chemical Entities of Biological Interest Ontology"
 INVESTIGATION
 Investigation Identifier	"LTI225"
 Investigation Title	"Investigation"
@@ -68,14 +68,14 @@ Study Factor Type	"genotype"	"plant treatment"	"sampling time"	"biological repli
 Study Factor Type Term Accession Number	"http://www.ebi.ac.uk/efo/EFO_0000513"	"http://purl.obolibrary.org/obo/EO_0001001"	"http://www.ebi.ac.uk/efo/EFO_0000689"	"http://www.ebi.ac.uk/efo/EFO_0002091"
 Study Factor Type Term Source REF	"EFO"	"EFO"	"EFO"	"EFO"
 STUDY ASSAYS
-Study Assay File Name	"a_ipb-2014-01_transcription profiling_DNA microarray.txt"	"a_ipb-2014-01_metabolite profiling_mass spectrometry negative.txt"	"a_ipb-2014-01_metabolite profiling_mass spectrometry positive.txt"
-Study Assay Measurement Type	"transcription profiling"	"metabolite profiling"	"metabolite profiling"
-Study Assay Measurement Type Term Accession Number	"obo:OBI_0000424"	"http://purl.obolibrary.org/obo/OBI_0000366"	"http://purl.obolibrary.org/obo/OBI_0000366"
+Study Assay File Name	"a_ipb-2014-01_metabolite profiling_mass spectrometry negative.txt"	"a_mtbls18_transcription_profiling_DNA_microarray.txt"	"a_ipb-2014-01_metabolite profiling_mass spectrometry positive.txt"
+Study Assay Measurement Type	"metabolite profiling"	"transcription profiling"	"metabolite profiling"
+Study Assay Measurement Type Term Accession Number	"http://purl.obolibrary.org/obo/OBI_0000366"	"obo:OBI_0000424"	"http://purl.obolibrary.org/obo/OBI_0000366"
 Study Assay Measurement Type Term Source REF	"OBI"	"OBI"	"OBI"
-Study Assay Technology Type	"DNA microarray"	"mass spectrometry"	"mass spectrometry"
-Study Assay Technology Type Term Accession Number	"obo:OBI_0400148"	"http://purl.obolibrary.org/obo/OBI_0001478"	"http://purl.obolibrary.org/obo/OBI_0001478"
+Study Assay Technology Type	"mass spectrometry"	"DNA microarray"	"mass spectrometry"
+Study Assay Technology Type Term Accession Number	"http://purl.obolibrary.org/obo/OBI_0001478"	"http://purl.obolibrary.org/obo/OBI_0400148"	"http://purl.obolibrary.org/obo/OBI_0001478"
 Study Assay Technology Type Term Source REF	"OBI"	"OBI"	"OBI"
-Study Assay Technology Platform	"Affymetrix"	"micrOTOF-Q II ESI-Qq-TOF (Bruker)"	"micrOTOF-Q II ESI-Qq-TOF (Bruker)"
+Study Assay Technology Platform	"micrOTOF-Q II ESI-Qq-TOF (Bruker)"	"Affymetrix"	"micrOTOF-Q II ESI-Qq-TOF (Bruker)"
 STUDY PROTOCOLS
 Study Protocol Name	"data collection"	"data transformation"	"RNA extraction"	"labeling"	"nucleic acid hybridization"	"normalization data transformation"	"Extraction"	"Chromatography"	"Mass spectrometry"	"Data normalization"	"Data transformation"	"Metabolite identification"
 Study Protocol Type	"data collection"	"data transformation"	"RNA extraction"	"labeling"	"nucleic acid hybridization"	"normalization data transformation"	"Extraction"	"Chromatography"	"Mass spectrometry"	"Data normalization"	"Data transformation"	"Metabolite identification"
