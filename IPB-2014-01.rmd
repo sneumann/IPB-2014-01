@@ -116,8 +116,8 @@ A first QC step is the visual inspection of intensities across the samples.
 Alternatively to a boxplot, one could also create histograms/density plots.
 
 ```{r QCintensity}
-boxplot(groupval(mtbls2Set, value="into")+1, 
-        col=as.numeric(sampclass(mtbls2Set))+1, 
+boxplot(groupval(mtblsSet, value="into")+1, 
+        col=as.numeric(sampclass(mtblsSet))+1, 
         log="y", las=2)
 ``` 
 
@@ -132,7 +132,7 @@ After grouping, peaks might be missing/not found in some samples.
 from the other samples. 
 
 ```{r fillPeaks, message=FALSE, warning=FALSE, results='hide' }
-mtbls2Set <- fillPeaks(mtbls2Set)
+mtblsSet <- fillPeaks(mtblsSet)
 ```
 
 The final xcmsSet represents a rectangular matrix of mass spectral features,
@@ -147,11 +147,33 @@ and the PCA of the samples.
 
 ```{r QCPCA, fig.show='hold'}
 sdThresh <- 4.0 ## Filter low-standard deviation rows for plot
-data <- log(groupval(mtbls2Set, value="into")+1)
+data <- log(groupval(mtblsSet, value="into")+1)
 
 pca.result <- pca(data, nPcs=3)
 plotPcs(pca.result, type="loadings", 
-        col=as.numeric(sampclass(mtbls2Set))+1)
+        col=as.numeric(sampclass(mtblsSet))+1)
+
+d <- phenoData(mtblsSet)[,c("Factor Value[Treatment]", "Factor Value[Sampling time]")]
+
+plotPcs(pca.result, type="loadings",
+        col=ifelse (d[,1]=="water", 1, as.numeric(d[,2])+1))
+
+
+plotPcs(pca.result, type="loadings",
+        col=phenoData(mtblsSet)[,"Factor Value[Genotype]"])
+
+injection <- as.numeric(sub(".*_([0-9]+).mzData", "\\1", filepaths(mtblsSet),perl=TRUE))
+samplecolor <- rainbow(length(injection))[rank(injection)]
+plotPcs(pca.result, type="loadings", col=samplecolor)
+
+# Try some quantile normalisation
+# library(preprocessCore)
+# data <- normalize.quantiles(data)
+# boxplot(data, col=as.numeric(sampclass(mtblsSet))+1, las=2)
+
+# pca.result <- pca(data, nPcs=3)
+# plotPcs(pca.result, type="loadings", col=samplecolor)
+
 
 ## For readable heatmaps, 
 data <- data[apply(data, MAR=1, FUN=sd) > sdThresh,]
@@ -163,8 +185,8 @@ heatmap_2(data, scale = "none", col=bpy.colors(100), legend=2)
 
 ```{r CAMERA, warning=FALSE, results='hide'}
 
-an <- xsAnnotate(mtbls2Set,
-                 sample=seq(1,length(sampnames(mtbls2Set))),
+an <- xsAnnotate(mtblsSet,
+                 sample=seq(1,length(sampnames(mtblsSet))),
                  nSlaves=nSlaves)
 
 an <- groupFWHM(an)
