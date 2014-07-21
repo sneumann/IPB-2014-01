@@ -1,3 +1,6 @@
+---
+output: word_document
+---
 MTBLSXX Processing and Analysis with xcms, CAMERA and export to MetaboLights
 ============================================================================
 
@@ -42,8 +45,8 @@ with the paths to the mass spectral raw data files in one of the above formats.
 ```{r rISA, cache=TRUE}
 ISAmtbls <- readISAtab("/vol/bioinvindex/Submissions/IPB-2014-01/")
 
-i <- 2
-a.filename <- ISAmtbls["assay.filenames"][[i]]
+assaynr <- 3
+a.filename <- ISAmtbls["assay.filenames"][[assaynr]]
 
 ````
 
@@ -73,7 +76,7 @@ ISAmtbls@factors[[1]]$`Factor Value[Replicate]` <- factor(1)
 samplefactorvalues <- cbind(ISAmtbls@samples, as.data.frame(ISAmtbls@factors))
 colnames(samplefactorvalues) <- c(Risa:::isatab.syntax$sample.name, names(ISAmtbls@factors[[1]]))
 
-pd <- merge(ISAmtbls["assay.files"][[i]], samplefactorvalues, by=Risa:::isatab.syntax$sample.name)
+pd <- merge(ISAmtbls["assay.files"][[assaynr]], samplefactorvalues, by=Risa:::isatab.syntax$sample.name)
 
 xcmsSet.pd <- pd[, grep(Risa:::isatab.syntax$factor.value, colnames(pd))]
 
@@ -132,7 +135,8 @@ After grouping, peaks might be missing/not found in some samples.
 from the other samples. 
 
 ```{r fillPeaks, message=FALSE, warning=FALSE, results='hide' }
-mtblsSet <- fillPeaks(mtblsSet)
+mtblsSet <- fillPeaks(mtblsSet, nSlaves=nSlaves)
+
 ```
 
 The final xcmsSet represents a rectangular matrix of mass spectral features,
@@ -140,13 +144,18 @@ which were detected (or imputed) across the samples. The dimensionality is M * N
 where M denotes the number of samples in the assay, and N the number
 of features grouped across the samples. 
 
+## Normalisation and correction
+
+http://www.nature.com/nprot/journal/v6/n7/fig_tab/nprot.2011.335_F2.html
+
+
 ## QC with heatmap and PCA
 
 In addition to the boxplot for QC, we can also check a hierarchical clustering 
 and the PCA of the samples. 
 
 ```{r QCPCA, fig.show='hold'}
-sdThresh <- 4.0 ## Filter low-standard deviation rows for plot
+sdThresh <- 1.0 ## Filter low-standard deviation rows for plot
 data <- log(groupval(mtblsSet, value="into")+1)
 
 pca.result <- pca(data, nPcs=3)
@@ -155,16 +164,15 @@ plotPcs(pca.result, type="loadings",
 
 d <- phenoData(mtblsSet)[,c("Factor Value[Treatment]", "Factor Value[Sampling time]")]
 
-plotPcs(pca.result, type="loadings",
+plotPcs(pca.result, type="loadings", main="PCA by water (both timepoints)/ 6h / 12h",
         col=ifelse (d[,1]=="water", 1, as.numeric(d[,2])+1))
 
-
-plotPcs(pca.result, type="loadings",
+plotPcs(pca.result, type="loadings", main="PCA by genotype",
         col=phenoData(mtblsSet)[,"Factor Value[Genotype]"])
 
 injection <- as.numeric(sub(".*_([0-9]+).mzData", "\\1", filepaths(mtblsSet),perl=TRUE))
 samplecolor <- rainbow(length(injection))[rank(injection)]
-plotPcs(pca.result, type="loadings", col=samplecolor)
+plotPcs(pca.result, type="loadings", main="PCA by injection number", col=samplecolor)
 
 # Try some quantile normalisation
 # library(preprocessCore)
@@ -216,7 +224,7 @@ an <- findAdducts(an,
 
 ## Diffreport
 ```{r diffreport}
-dr <- diffreport(mtbls2Set, sortpval=FALSE, filebase="mtbls2diffreport", eicmax=20 )
+dr <- diffreport(mtblsSet, sortpval=FALSE, filebase="mtblsdiffreport", eicmax=20 )
 cspl <- getPeaklist(an)
 
 annotatedDiffreport <- cbind(dr, cspl)
@@ -254,7 +262,7 @@ The underlying `group()` was probably not performed with a large enough bw param
 
 ```{r retentionTimeOutlier }
     # Check RMSD of retention time deviation
-     xs <- mtbls2Set
+     xs <- mtblsSet
      xs <- retcor(xs)
 
      rmsd <- mapply(function(raw, corrected) sqrt(sum( (raw-corrected)**2) ),
@@ -275,101 +283,6 @@ In addition, it is even possible to cluster the samples w.r.t. their retention t
      ddevs <- dist(t(devs))
      hdevs <- hclust(ddevs)
      plot(hdevs)
-```
-
-
-## How good is `fillPeaks()` ?
-
-`fillPeaks()` will add intensities for peaks not observed in a certain sample, but in some/most of the other samples of a smple class. The question is:
-How good does `fillPeaks()` estimate the intenisty for my data ?
-One way to estimate the quality is to take an xcmsSet grouped without NA values (i.e. one class and minfrac=1), remove the peaks of one sample, and fill them back in.
-This way you can create a scatterplot of found peaks vs. filled peaks, and also check for which intensities they occur:
-
-```{r checkFillPeaksprepare}
-
-if (FALSE) {
- xsgOrig <- mtbls2Set
- phenoData(xsgOrig) <- rep("dummy", length(sampnames(xsgOrig)))
-
- xsgOrig <- group(xsgOrig, minfrac=1) ## The xcmsSet with "true" intensities and without NAs
-
- ## remove extra peaks within groups
- xsg <- xsgOrig
- peaks <- cbind(peaks(xsg),(1:nrow(peaks(xsg))))
- meds <- as.vector(groupval(xsg,"medret"))
- meds <- meds[which(!is.na(meds))]
- peaks <-peaks[meds,]
- colnames(peaks) <- c(colnames(peaks(xsg)),"index")
- 
- ## cleanup groupidx list
- for (a in 1: length(groupidx(xsg))) {
-     gxs=NULL
-     for (b in 1:length(groupidx(xsg)[[a]])){
-         if (any(meds == groupidx(xsg)[[a]][b]))
-             gxs<-c(gxs,groupidx(xsg)[[a]][b])
-     }
-     groupidx(xsg)[[a]] <- gxs
- }
- 
- ## change index in groupidx
- for (a in 1: length(groupidx(xsg))) {
-     gxs=NULL
-     for (b in 1:length(groupidx(xsg)[[a]])){
-         groupidx(xsg)[[a]][b] <- which(peaks[,"index"]==groupidx(xsg)[[a]][b])
-     }
- }
- 
- ## Write "cleaned" peaklist
- peaks(xsg) <- peaks[,(1:(ncol(peaks)-1))]
- 
- ## remove peaks from last sample
- lasts <- max(peaks(xsg)[,"sample"])
- lsmin <- min(which(peaks(xsg)[,"sample"]==lasts))
- 
- ## remove peaksIDs from groupidx
- for (a in 1: length(groupidx(xsg))){
-     groupidx(xsg)[[a]] <- groupidx(xsg)[[a]][which(groupidx(xsg)[[a]]<lsmin)]
- }
- 
- ## remove peaks from peaklist
- peaks(xsg) <- peaks(xsg)[1:(lsmin-1),]
-}
-```
-
-Now we have an xcmsSet, where the last sample has been deprived of all its peaks.
-Let's fill them back in:
-
-```{r checkFillPeak, fig.show="hold", message=FALSE, warning=FALSE}
- ##
- ## Preparations finished, now fillPeaks()
- ##
-if (FALSE) {
-  xsgf <- fillPeaks(xsg)
-  
- ## compare peaks in both xcmsSets groupwise and samplewise
- gxorig <- groupidx(xsgOrig) ## das fillpeaks-ergebnis des backups
- gxfill <- groupidx(xsgf) ## das fillpeaks-ergebnis des XS ohne sample lasts
- 
- ## plot original and filled peaks
- mxo<-NA
- mxf<-NA
- ino<-NA
- inf<-NA
- for (a in 1: length(gxorig))
- {    
-     opeak <- gxorig[[a]][which(peaks(xsgOrig)[gxorig[[a]],"sample"]==length(sampnames(xsgOrig)))]
-     fpeak <- gxfill[[a]][which(peaks(xsgf)[gxfill[[a]],"sample"]==length(sampnames(xsgOrig)))]
-     mxo[a] <- peaks(xsgOrig)[opeak,"mz"]
-     mxf[a] <- peaks(xsgf)[fpeak,"mz"]
-     ino[a] <- peaks(xsgOrig)[opeak,"into"]
-     inf[a] <- peaks(xsgf)[fpeak,"into"]
- }
- 
- 
- plot(log(ino),log(inf), pch=".")
-  
- plot(ino,inf/ino, pch=".", log="x")
- }
 ```
 
 ## R, ISAtab, xcms and CAMERA revisited
@@ -393,7 +306,7 @@ abundance <- groupval(an@xcmsSet, value="into")
 ## load ISA assay files
 ## 
 
-a.samples <- ISAmtbls2["samples.per.assay.filename"][[ a.filename ]]
+a.samples <- ISAmtbls["samples.per.assay.filename"][[ a.filename ]]
 
 ##
 ## These columns are defined by mzTab
@@ -443,20 +356,31 @@ maf <- data.frame(identifier = character(l),
 
 ##
 ## Make sure maf table is quoted properly, 
-## and add to the ISAmtbls2 assay file.
+## and add to the ISAmtbls assay file.
 ## 
 maf_character <- apply(maf, 2, as.character)
 
 write.table(maf_character, 
-            file="a_mtbl2_metabolite profiling_mass spectrometry_maf.csv",
+            file="a_ipb-2014-01_metabolite profiling_mass spectrometry positive_v2_maf.tsv",
             row.names=FALSE, col.names=all.colnames, 
             quote=TRUE, sep="\t", na="\"\"")
 
-ISAmtbls2 <- updateAssayMetadata(ISAmtbls2, a.filename,
+ISAmtbls <- updateAssayMetadata(ISAmtbls, a.filename,
              "Metabolite Assignment File",
-             "a_mtbl2_metabolite profiling_mass spectrometry_maf.csv")
+             "a_ipb-2014-01_metabolite profiling_mass spectrometry positive_v2_maf.tsv")
 
-write.assay.file(ISAmtbls2, a.filename)
+write.assay.file(ISAmtbls, a.filename)
 
 ```
+
+## sessionInfo()
+
+This information allows to track which software and package versions 
+were used in the creation of the analysis:
+
+```{r sessionInfo}
+sessionInfo()
+
+```
+
 
