@@ -50,6 +50,7 @@ Comment[Data Record URI]	""
 Comment[Supplementary Information File Name]	""
 Comment[Supplementary Information File Type]	""
 Comment[Supplementary File URI]	""
+Comment[AEExperimentType]	"transcription profiling by array"
 STUDY DESIGN DESCRIPTORS
 Study Design Type	"chemically induced mutation"	"Phytophthora infestans 90128"	"Arabidopsis thaliana"	"time series design"	"time series design"	"disease state design"	"infection"
 Study Design Type Term Accession Number	"http://www.ebi.ac.uk/efo/EFO_0000370"	""	""	"http://purl.obolibrary.org/obo/OBI_0500020"	"http://www.ebi.ac.uk/efo/EFO_0001779"	"http://www.ebi.ac.uk/efo/EFO_0001756"	"http://purl.obolibrary.org/obo/OBI_1110021"
