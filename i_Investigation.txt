@@ -78,7 +78,7 @@ Study Assay Technology Type Term Accession Number	"http://purl.obolibrary.org/ob
 Study Assay Technology Type Term Source REF	"OBI"	"OBI"	"OBI"
 Study Assay Technology Platform	"Affymetrix"	"micrOTOF-Q II ESI-Qq-TOF (Bruker)"	"micrOTOF-Q II ESI-Qq-TOF (Bruker)"
 STUDY PROTOCOLS
-Study Protocol Name	"data collection"	"data transformation"	"RNA extraction"	"labeling"	"nucleic acid hybridization"	"normalization data transformation"	"Extraction"	"Chromatography"	"Mass spectrometry"	"Data normalization"	"Data transformation"	"Metabolite identification"
+Study Protocol Name	"data collection"	"data transformation"	"nucleic acid extraction"	"labeling"	"nucleic acid hybridization"	"normalization data transformation"	"Metabolite extraction"	"Chromatography"	"Mass spectrometry"	"Data normalization"	"Data transformation"	"Metabolite identification"
 Study Protocol Type	"data collection"	"data transformation"	"RNA extraction"	"labeling"	"nucleic acid hybridization"	"normalization data transformation"	"Extraction"	"Chromatography"	"Mass spectrometry"	"Data normalization"	"Data transformation"	"Metabolite identification"
 Study Protocol Type Term Accession Number	""	""	""	""	""	""	""	""	""	""	""	""
 Study Protocol Type Term Source REF	""	""	""	""	""	""	""	""	""	""	""	""
