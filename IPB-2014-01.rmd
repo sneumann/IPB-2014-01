@@ -349,32 +349,19 @@ abundance <- groupval(ans[[assaynr]]@xcmsSet, value="into")
 a.samples <- ISAmtbls["samples.per.assay.filename"][[ a.filename ]]
 
 ##
-## These columns are defined by mzTab
-##
-
-maf.std.colnames <- c("identifier", "chemical_formula", "description",
-"mass_to_charge", "fragmentation", "charge", "retention_time",
-"taxid", "species", "database", "database_version", "reliability",
-"uri", "search_engine", "search_engine_score", "modifications",
-"smallmolecule_abundance_sub", "smallmolecule_abundance_stdev_sub",
-"smallmolecule_abundance_std_error_sub")
-
-##
-## Plus the columns for the sample intensities
-##
-all.colnames <- c(maf.std.colnames, a.samples)
-
-##
 ## Now assemble new maf
 ##
 
 l <- nrow(pl)
 
-maf <- data.frame(identifier = character(l), 
+maf <- data.frame(database_identifier = character(l), 
                   chemical_formula = character(l), 
-                  description = character(l), 
+                  smiles = character(l), 
+                  inchi = character(l), 
+                  metabolite_identification = character(l),                   
                   mass_to_charge = pl$mz, 
                   fragmentation = character(l), 
+                  modifications = character(l), 
                   charge = charge, 
                   retention_time = pl$rt, 
                   taxid = character(l), 
@@ -385,11 +372,15 @@ maf <- data.frame(identifier = character(l),
                   uri = character(l), 
                   search_engine = character(l), 
                   search_engine_score = character(l),
-                  modifications = character(l), 
                   smallmolecule_abundance_sub = character(l),
                   smallmolecule_abundance_stdev_sub = character(l), 
                   smallmolecule_abundance_std_error_sub = character(l),
                   abundance, stringsAsFactors=FALSE)
+
+##
+## Colnames defined by MTBLS Plus the columns for the sample intensities
+##
+all.colnames <- c(colnames(maf)[1:21], a.samples)
 
 
 ##
