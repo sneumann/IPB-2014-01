@@ -27,9 +27,6 @@ A few things might be worth to define at the beginning of an analysis
 ## How many CPU cores has your machine (or cluster) ?
 nSlaves=18
 
-# prefilter <- c(3,200)  ## standard
-prefilter=c(6,1000)      ## quick-run for debuggung
-
 ```
 
 ## Raw data conversion
@@ -44,9 +41,7 @@ with the paths to the mass spectral raw data files in one of the above formats.
 
 ```{r rISA, cache=TRUE}
 ISAmtbls <- readISAtab("/vol/bioinvindex/Submissions/IPB-2014-01/")
-
-assaynr <- 3
-a.filename <- ISAmtbls["assay.filenames"][[assaynr]]
+mtblsSets <- sapply(c("microarray", "negative", "positive"), function(x) NULL)
 
 ````
 
@@ -55,12 +50,19 @@ a.filename <- ISAmtbls["assay.filenames"][[assaynr]]
 With the combination of [Risa](http://bioconductor.org/packages/release/bioc/html/Risa.html) and xcms, we can convert the MS raw data in an ISAtab archive into an xcmsSet:
 
 ```{r PeakPicking, cache=TRUE, warning=FALSE}
-mtblsSet <- processAssayXcmsSet(ISAmtbls, a.filename,
-                                 method="centWave", prefilter=prefilter, 
-                                 snthr=25, 
-                                 ppm=25, 
-                                 peakwidth=c(5,12),
-                                 nSlaves=nSlaves)
+
+for (assaynr in c(2,3)) {
+  a.filename <- ISAmtbls["assay.filenames"][[assaynr]]
+  mtblsSets[[assaynr]] <- processAssayXcmsSet(ISAmtbls, a.filename,
+                                   method="centWave", prefilter=c(4,200), 
+                                   snthr=5, mzdiff=0.0025,
+                                   ppm=35, peakwidth=c(7,50),
+                                   nSlaves=nSlaves)
+}
+
+#save(mtblsSets, file="mtblsSets.Rdata")
+#load("mtblsSets.Rdata")
+
 ````
 
 
@@ -69,26 +71,30 @@ we need the following hack:
 
 ````{r hack group names, cache=TRUE, warning=FALSE}
 
-## Remove NA factors until fixed in ISAtab submission
-ISAmtbls@factors[[1]]$`Factor Value[Replicate]` <- factor(1)
+for (assaynr in c(2,3)) {
+  ## Remove NA factors until fixed in ISAtab submission
+  ISAmtbls@factors[[1]]$`Factor Value[Replicate]` <- factor(1)
 
-## 
-samplefactorvalues <- cbind(ISAmtbls@samples, as.data.frame(ISAmtbls@factors))
-colnames(samplefactorvalues) <- c(Risa:::isatab.syntax$sample.name, names(ISAmtbls@factors[[1]]))
+  ## 
+  samplefactorvalues <- cbind(ISAmtbls@samples, as.data.frame(ISAmtbls@factors))
+  colnames(samplefactorvalues) <- c(Risa:::isatab.syntax$sample.name, 
+                                    names(ISAmtbls@factors[[1]]))
 
-pd <- merge(ISAmtbls["assay.files"][[assaynr]], samplefactorvalues, by=Risa:::isatab.syntax$sample.name)
+  pd <- merge(ISAmtbls["assay.files"][[assaynr]], samplefactorvalues, 
+              by=Risa:::isatab.syntax$sample.name)
 
-xcmsSet.pd <- pd[, grep(Risa:::isatab.syntax$factor.value, colnames(pd))]
+  xcmsSet.pd <- pd[, grep(Risa:::isatab.syntax$factor.value, colnames(pd))]
 
-sampclass(mtblsSet) <- as.factor(do.call(paste, xcmsSet.pd))
-phenoData(mtblsSet) <- xcmsSet.pd
-
+  sampclass(mtblsSets[[assaynr]]) <- as.factor(do.call(paste, xcmsSet.pd))
+  phenoData(mtblsSets[[assaynr]]) <- xcmsSet.pd  
+}
+  
 ````
 
 The result is the same type of xcmsSet object:
 
 ```{r xcmsSet}
-show(mtblsSet)
+mtblsSets
 ``` 
 
 Several options exist to quantify the individual intensities. For each feature,
@@ -103,13 +109,14 @@ as quality control of the raw data. After that, 'fillPeaks()' will integrate
 the raw data for those features, which were not detected in some of the samples.
 
 ```{r retcor}
-mtblsSet <- group(mtblsSet, minfrac=1, bw=4)
-mtblsSet
-mtblsSet <- retcor(mtblsSet, plottype="mdevden")
-mtblsSet <- group(mtblsSet, minfrac=1, bw=2)
-mtblsSet
-retcor(mtblsSet, plottype="mdevden")
-
+for (assaynr in c(2,3)) {
+  mtblsSets[[assaynr]] <- group(mtblsSets[[assaynr]], minfrac=1, bw=4)
+  mtblsSets[[assaynr]]
+  mtblsSets[[assaynr]] <- retcor(mtblsSets[[assaynr]], plottype="mdevden")
+  mtblsSets[[assaynr]] <- group(mtblsSets[[assaynr]], minfrac=1, bw=2)
+  mtblsSets[[assaynr]]
+  retcor(mtblsSets[[assaynr]], plottype="mdevden")
+}
 
 ```
 
@@ -119,9 +126,11 @@ A first QC step is the visual inspection of intensities across the samples.
 Alternatively to a boxplot, one could also create histograms/density plots.
 
 ```{r QCintensity}
-boxplot(groupval(mtblsSet, value="into")+1, 
-        col=as.numeric(sampclass(mtblsSet))+1, 
+for (assaynr in c(2,3)) {
+boxplot(groupval(mtblsSets[[assaynr]], value="into")+1, 
+        col=as.numeric(sampclass(mtblsSets[[assaynr]]))+1, 
         log="y", las=2)
+}
 ``` 
 
 ## How to optimize xcms Parameters ?
@@ -135,7 +144,9 @@ After grouping, peaks might be missing/not found in some samples.
 from the other samples. 
 
 ```{r fillPeaks, message=FALSE, warning=FALSE, results='hide' }
-mtblsSet <- fillPeaks(mtblsSet, nSlaves=nSlaves)
+for (assaynr in c(2,3)) {
+  mtblsSets[[assaynr]] <- fillPeaks(mtblsSets[[assaynr]], nSlaves=nSlaves)
+}
 
 ```
 
@@ -155,79 +166,96 @@ In addition to the boxplot for QC, we can also check a hierarchical clustering
 and the PCA of the samples. 
 
 ```{r QCPCA, fig.show='hold'}
-sdThresh <- 1.0 ## Filter low-standard deviation rows for plot
-data <- log(groupval(mtblsSet, value="into")+1)
 
-pca.result <- pca(data, nPcs=3)
-plotPcs(pca.result, type="loadings", 
-        col=as.numeric(sampclass(mtblsSet))+1)
+for (assaynr in c(2,3)) {
+  plotQC(mtblsSets[[assaynr]])
+}
+  
+for (assaynr in c(2,3)) {
+  sdThresh <- 1.5 ## Filter low-standard deviation rows for plot
+  data <- log(groupval(mtblsSets[[assaynr]], value="into")+1)
 
-d <- phenoData(mtblsSet)[,c("Factor Value[Treatment]", "Factor Value[Sampling time]")]
+  pca.result <- pca(data, nPcs=3)
+  plotPcs(pca.result, type="loadings", 
+          col=as.numeric(sampclass(mtblsSets[[assaynr]]))+1)
 
-plotPcs(pca.result, type="loadings", main="PCA by water (both timepoints)/ 6h / 12h",
-        col=ifelse (d[,1]=="water", 1, as.numeric(d[,2])+1))
+  d <- phenoData(mtblsSets[[assaynr]])[,c("Factor Value[Treatment]", 
+                                          "Factor Value[Sampling time]")]
 
-plotPcs(pca.result, type="loadings", main="PCA by genotype",
-        col=phenoData(mtblsSet)[,"Factor Value[Genotype]"])
+  plotPcs(pca.result, type="loadings", main="PCA by water (both timepoints)/ 6h / 12h",
+          col=ifelse (d[,1]=="water", 1, as.numeric(d[,2])+1))
 
-injection <- as.numeric(sub(".*_([0-9]+).mzData", "\\1", filepaths(mtblsSet),perl=TRUE))
-samplecolor <- rainbow(length(injection))[rank(injection)]
-plotPcs(pca.result, type="loadings", main="PCA by injection number", col=samplecolor)
+  plotPcs(pca.result, type="loadings", main="PCA by genotype",
+          col=phenoData(mtblsSets[[assaynr]])[,"Factor Value[Genotype]"])
 
-# Try some quantile normalisation
-# library(preprocessCore)
-# data <- normalize.quantiles(data)
-# boxplot(data, col=as.numeric(sampclass(mtblsSet))+1, las=2)
+  injection <- as.numeric(sub(".*_([0-9]+).mzData", "\\1", 
+                              filepaths(mtblsSets[[assaynr]]),perl=TRUE))
+  samplecolor <- rainbow(length(injection))[rank(injection)]
+  plotPcs(pca.result, type="loadings", 
+          main="PCA by injection number", col=samplecolor)
 
-# pca.result <- pca(data, nPcs=3)
-# plotPcs(pca.result, type="loadings", col=samplecolor)
+  ## Try some quantile normalisation
+  ## library(preprocessCore)
+  ## data <- normalize.quantiles(data)
+  ## boxplot(data, col=as.numeric(sampclass(mtblsSet))+1, las=2)
+
+  ## pca.result <- pca(data, nPcs=3)
+  ## plotPcs(pca.result, type="loadings", col=samplecolor)
 
 
-## For readable heatmaps, 
-data <- data[apply(data, MAR=1, FUN=sd) > sdThresh,]
-heatmap_2(data, scale = "none", col=bpy.colors(100), legend=2)
+  ## For readable heatmaps, 
+  data <- data[apply(data, MAR=1, FUN=sd) > sdThresh,]
+  heatmap_2(data, scale = "none", col=bpy.colors(100), legend=2)
+}
 
 ```
 
 ## Annotated diffreport
 
 ```{r CAMERA, warning=FALSE, results='hide'}
-
-an <- xsAnnotate(mtblsSet,
-                 sample=seq(1,length(sampnames(mtblsSet))),
-                 nSlaves=nSlaves)
-
-an <- groupFWHM(an)
-an <- findIsotopes(an)  # optional but recommended.
-an <- groupCorr(an,
-                graphMethod="lpc",
-                calcIso = TRUE,
-                calcCiS = TRUE,
-                calcCaS = TRUE,
-                cor_eic_th=0.5)
-
-## Setup ruleSet
-rs <- new("ruleSet")
-rs@ionlistfile <- "ions.csv"
-rs@neutraladditionfile <- "neutraladdition.csv"
-rs@neutrallossfile <- "neutralloss.csv"
-
-rs <- readLists(rs)
-rs <- setDefaultParams(rs)
-rs <- generateRules(rs)
-
-an <- findAdducts(an,
-                  rules=rs@rules,
-                  polarity="positive")
+ans <- sapply(c("microarray", "negative", "positive"), function(x) NULL)
+for (assaynr in c(2,3)) {
+  ans[[assaynr]] <- xsAnnotate(mtblsSets[[assaynr]],
+                               sample=seq(1,length(sampnames(mtblsSets[[assaynr]]))),
+                               nSlaves=nSlaves)
   
+  ans[[assaynr]] <- groupFWHM(ans[[assaynr]])
+  ans[[assaynr]] <- findIsotopes(ans[[assaynr]])  # optional but recommended.
+  ans[[assaynr]] <- groupCorr(ans[[assaynr]],
+                              graphMethod="lpc",
+                              calcIso = TRUE,
+                              calcCiS = TRUE,
+                              calcCaS = TRUE,
+                              cor_eic_th=0.5)
+  
+  ## Setup ruleSet
+  rs <- new("ruleSet")
+  rs@ionlistfile <- "ions.csv"
+  rs@neutraladditionfile <- "neutraladdition.csv"
+  rs@neutrallossfile <- "neutralloss.csv"
+  
+  rs <- readLists(rs)
+  rs <- setDefaultParams(rs)
+  rs <- generateRules(rs)
+  
+  ans[[assaynr]] <- findAdducts(ans[[assaynr]],
+                                rules=rs@rules,
+                                polarity="positive")
+  }
+
 ```
 
 ## Diffreport
 ```{r diffreport}
-dr <- diffreport(mtblsSet, sortpval=FALSE, filebase="mtblsdiffreport", eicmax=20 )
-cspl <- getPeaklist(an)
+annotatedDiffreports <- sapply(c("microarray", "negative", "positive"), function(x) NULL)
+for (assaynr in c(2,3)) {
 
-annotatedDiffreport <- cbind(dr, cspl)
+dr <- diffreport(mtblsSets[[assaynr]], sortpval=FALSE, 
+                  filebase=paste("mtblsdiffreport", assaynr, sep="-"), eicmax=20 )
+cspl <- getPeaklist(ans[[assaynr]])
+
+annotatedDiffreports[[assaynr]] <- cbind(dr, cspl)
+}
 
 ```
 
@@ -261,8 +289,10 @@ Sometimes, especially with larger sample sets, the standard `retcor()` will comp
 The underlying `group()` was probably not performed with a large enough bw param, e.g. UPLC parameters used for an HPLC setup. For large sample sets (way more than one hundred) you can increase the `retcor()` parameters `missing` and `extra`, which allows more peaks to be considered "well behaved". The `retcor(method="obiwarp")` method does not rely one such peak groups, and uses raw spectra correlation. It creates an xcmsSet with corrected retention times.
 
 ```{r retentionTimeOutlier }
-    # Check RMSD of retention time deviation
-     xs <- mtblsSet
+for (assaynr in c(2,3)) {
+
+## Check RMSD of retention time deviation
+     xs <- mtblsSets[[assaynr]]
      xs <- retcor(xs)
 
      rmsd <- mapply(function(raw, corrected) sqrt(sum( (raw-corrected)**2) ),
@@ -270,19 +300,27 @@ The underlying `group()` was probably not performed with a large enough bw param
     names(rmsd) <- sampnames(xs)
   plot(rmsd, xaxt="n", las=1)
   axis(1, at=1:length(rmsd), labels=names(rmsd), las=2)
+  }
+
 ```
 
 In addition, it is even possible to cluster the samples w.r.t. their retention time profiles, which can discriminate between samples with the same RMSD in different areas of the gradient:
 
 
 ```{r retentionTimeOutlierClustering}
-     minlength <- min(sapply(xs@rt$raw, length ))
-     devs <- sapply(1:length(xs@rt$corrected),
+for (assaynr in c(2,3)) {
+  xs <- mtblsSets[[assaynr]]
+  xs <- retcor(xs)
+
+  minlength <- min(sapply(xs@rt$raw, length ))
+  devs <- sapply(1:length(xs@rt$corrected),
                     function(x) { (xs@rt$raw[[x]]-xs@rt$corrected[[x]])[1:minlength] })
-     colnames(devs) <- sampnames(xs)
-     ddevs <- dist(t(devs))
-     hdevs <- hclust(ddevs)
-     plot(hdevs)
+  colnames(devs) <- smapnames(xs)
+  ddevs <- dist(t(devs))
+  hdevs <- hclust(ddevs)
+  plot(hdevs)
+}
+
 ```
 
 ## R, ISAtab, xcms and CAMERA revisited
@@ -293,13 +331,15 @@ in the mzTab format used in MetaboLights. Currently, this functionality is not i
 in xcms. A prototype snippet is the following:
 
 ``` {r assembleMAF}
+for (assaynr in c(2,3)) {
+  a.filename <- ISAmtbls["assay.filenames"][[assaynr]]
 
-pl <- annotatedDiffreport 
+pl <- annotatedDiffreports[[assaynr]] 
 
-charge <- sapply(an@isotopes, function(x) {
+charge <- sapply(ans[[assaynr]]@isotopes, function(x) {
   ifelse( length(x) > 0, x$charge, NA) 
 })
-abundance <- groupval(an@xcmsSet, value="into")
+abundance <- groupval(ans[[assaynr]]@xcmsSet, value="into")
 
 
 ##
@@ -350,9 +390,7 @@ maf <- data.frame(identifier = character(l),
                   smallmolecule_abundance_stdev_sub = character(l), 
                   smallmolecule_abundance_std_error_sub = character(l),
                   abundance, stringsAsFactors=FALSE)
-```
 
-```{r exportMAF}
 
 ##
 ## Make sure maf table is quoted properly, 
@@ -360,16 +398,20 @@ maf <- data.frame(identifier = character(l),
 ## 
 maf_character <- apply(maf, 2, as.character)
 
+maf_file <- sub("a_", "m_", sub(".txt", "_v2_maf.tsv", a.filename))
+
 write.table(maf_character, 
-            file="a_ipb-2014-01_metabolite profiling_mass spectrometry positive_v2_maf.tsv",
+            file=maf_file,
             row.names=FALSE, col.names=all.colnames, 
             quote=TRUE, sep="\t", na="\"\"")
 
 ISAmtbls <- updateAssayMetadata(ISAmtbls, a.filename,
              "Metabolite Assignment File",
-             "a_ipb-2014-01_metabolite profiling_mass spectrometry positive_v2_maf.tsv")
+             maf_file)
 
 write.assay.file(ISAmtbls, a.filename)
+
+}
 
 ```
 
