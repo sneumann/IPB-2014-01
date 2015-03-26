@@ -346,7 +346,8 @@ abundance <- groupval(ans[[assaynr]]@xcmsSet, value="into")
 ## load ISA assay files
 ## 
 
-a.samples <- ISAmtbls["samples.per.assay.filename"][[ a.filename ]]
+##a.samples <- ISAmtbls["samples.per.assay.filename"][[ a.filename ]]
+a.samples <- ISAmtbls["assay.files"][[assaynr]][,"MS Assay Name"]
 
 ##
 ## Now assemble new maf
