@@ -251,7 +251,7 @@ annotatedDiffreports <- sapply(c("microarray", "negative", "positive"), function
 for (assaynr in c(2,3)) {
 
 dr <- diffreport(mtblsSets[[assaynr]], sortpval=FALSE, 
-                  filebase=paste("mtblsdiffreport", assaynr, sep="-"), eicmax=20 )
+                  filebase=paste("mtblsdiffreport", assaynr, sep="-"), eicmax=0 )
 cspl <- getPeaklist(ans[[assaynr]])
 
 annotatedDiffreports[[assaynr]] <- cbind(dr, cspl)
@@ -341,6 +341,30 @@ charge <- sapply(ans[[assaynr]]@isotopes, function(x) {
 })
 abundance <- groupval(ans[[assaynr]]@xcmsSet, value="into")
 
+##
+## Get matching manual identification from CSV only for positive mode
+##
+
+if (assaynr==3) {
+  manualAnnotation <- read.csv("LTI225-Peakliste.csv", stringsAsFactors=FALSE)
+  
+  ## Find Duplicated manual annotations
+  if (FALSE) {}
+   manualAnnotation[manualAnnotation[,"label"] 
+                   %in% as.character(manualAnnotation[duplicated(manualAnnotation[,"label"]),"label"]),]
+  }
+
+  manualAnnotation <- manualAnnotation[!grepl("unknown RT 323", manualAnnotation[,"Peak"]),]
+  
+  
+  metabolite_identification <- merge(pl, manualAnnotation, by.x="row.names", by.y="label", all.x=TRUE)[,"Peak"]
+  
+  modifications <- merge(pl, manualAnnotation, by.x="row.names", by.y="label", all.x=TRUE)[,"Annotation"]
+  } else {
+    ## Nothing annotated in negative mode
+    metabolite_identification <- character(l)
+    modifications = character(l)    
+  }
 
 ##
 ## load ISA assay files
@@ -359,10 +383,10 @@ maf <- data.frame(database_identifier = character(l),
                   chemical_formula = character(l), 
                   smiles = character(l), 
                   inchi = character(l), 
-                  metabolite_identification = character(l),                   
+                  metabolite_identification = as.character(metabolite_identification),                   
                   mass_to_charge = pl$mz, 
                   fragmentation = character(l), 
-                  modifications = character(l), 
+                  modifications = as.character(modifications), 
                   charge = charge, 
                   retention_time = pl$rt, 
                   taxid = character(l), 
