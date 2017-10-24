@@ -1,16 +1,14 @@
 ONTOLOGY SOURCE REFERENCE
-Term Source Name	"OBI"	"EFO"	"MS"	"PO"	"UO"	"CHMO"	
-Term Source File	"http://data.bioontology.org/ontologies/OBI"	"http://data.bioontology.org/ontologies/EFO"	"http://data.bioontology.org/ontologies/MS"	"http://data.bioontology.org/ontologies/PO"	"http://data.bioontology.org/ontologies/UO"	"http://data.bioontology.org/ontologies/CHMO"	
-Term Source Version	"21"	"111"	"86"	"10"	"42"	"5"	
-Term Source Description	"Ontology for Biomedical Investigations"	"Experimental Factor Ontology"	"Mass Spectrometry Ontology"	"Plant Ontology"	"Units of Measurement Ontology"	"Chemical Methods Ontology"	
+Term Source Name	"OBI"	"NCBITAXON"	"MS"	"BTO"	"CHMO"	"MS"	"UO"	"EFO"	
+Term Source File	"http://data.bioontology.org/ontologies/OBI"	"http://data.bioontology.org/ontologies/NCBITAXON"	"http://data.bioontology.org/ontologies/MS"	"http://data.bioontology.org/ontologies/BTO"	"http://data.bioontology.org/ontologies/CHMO"	"http://data.bioontology.org/ontologies/MS"	"http://data.bioontology.org/ontologies/UO"	"http://data.bioontology.org/ontologies/EFO"	
+Term Source Version	"21"	"4"	"86"	"26"	"16"	"129"	"42"	"146"	
+Term Source Description	"Ontology for Biomedical Investigations"	"National Center for Biotechnology Information (NCBI) Organismal Classification"	"Mass Spectrometry Ontology"	"BRENDA Tissue and Enzyme Source Ontology"	"Chemical Methods Ontology"	"Mass Spectrometry Ontology"	"Units of Measurement Ontology"	"Experimental Factor Ontology"	
 INVESTIGATION
-Investigation Identifier	"LTI225"
+Investigation Identifier	"MTBLS18"
 Investigation Title	"Investigation"
 Investigation Description	""
 Investigation Submission Date	""
 Investigation Public Release Date	""
-Comment [Created with configuration]	""
-Comment [Last Opened With Configuration]	""
 Comment[Created With Configuration]	""
 Comment[Last Opened With Configuration]	""
 INVESTIGATION PUBLICATIONS
@@ -36,10 +34,10 @@ Investigation Person Roles Term Source REF	""
 STUDY
 Study Identifier	"MTBLS18"
 Study Title	"Metabolic and transcriptional response of Arabidopsis thaliana wildtype and mutants to Phytophtora infestans"
-Study Description	"The oomycete P. infestans is the causal agent of late blight, the most devastating potato disease. In contrast to potato, A. thaliana is able to successfully prevent colonization of the pathogen due to a multi-layered nonhost resistance. Several mutants have been isolated which are impaired in penetration resistance. A mutation in the gene PEN2, which encodes for an enzyme involved in indole glucosinolate metabolism (Bednarek et al. (2009)), results in the loss of penetration resistance against P. infestans (Lipka et al. (2005)). Despite its ability to penetrate epidermal cells of pen2 mutant plants, P. infestans is still not able to colonize these plants. Additional mutants were isolated by Kopischke et al. (2013) which show enhanced defense responses upon infection with P. infestans: pen2erp1 and pen2erp2, and backcrossed mutants erp140 and erp2D. We used six different plant lines, the wildtype-like gl1, and the five different mutants (pen2, pen2erp1, pen2erp2, erp2D, erp140). The plants were either infected with P. infestans spores or treated with water as control, and harvested 6h and 12h after treatment. The experiment was repeated three times with different P. infestans cultures, resulting in biological triplicates, for an overall of 6 x 2 x 2 x 3 = 72 samples."
-Study Submission Date	"2014-03-19"
-Study Public Release Date	"2018-03-19"
-Study File Name	"s_IPB-2014-01.txt"
+Study Description	"The oomycete P. infestans is the causal agent of late blight, the most devastating potato disease. In contrast to potato, A. thaliana is able to successfully prevent colonization of the pathogen due to a multi-layered nonhost resistance. Several mutants have been isolated which are impaired in penetration resistance. A mutation in the gene PEN2, which encodes for an enzyme involved in indole glucosinolate metabolism, results in the loss of penetration resistance against P. infestans. Despite its ability to penetrate epidermal cells of pen2 mutant plants, P. infestans is still not able to colonize these plants. Additional mutants were isolated which show enhanced defense responses upon infection with P. infestans: pen2erp1 and pen2erp2, and backcrossed mutants erp140 and erp2D. We used 6 different plant lines, the wildtype-like gl1, and the five different mutants (pen2, pen2erp1, pen2erp2, erp2D, erp140). The plants were either infected with P. infestans spores or treated with water as control, and harvested 6 h and 12 h after treatment. The experiment was repeated 3 times with different P. infestans cultures, resulting in biological triplicates, for an overall of 6 x 2 x 2 x 3 = 72 samples."
+Study Submission Date	"2015-06-08"
+Study Public Release Date	"2016-06-02"
+Study File Name	"s_mtbls18.txt"
 Comment[Study Grant Number]	"Priority Program 1212"
 Comment[Study Funding Agency]	"Deutsche Forschungsgemeinschaft"
 Comment[Manuscript Licence]	"CC BY 3.0"
@@ -52,9 +50,9 @@ Comment[Supplementary Information File Type]	""
 Comment[Supplementary File URI]	""
 Comment[AEExperimentType]	"transcription profiling by array"
 STUDY DESIGN DESCRIPTORS
-Study Design Type	"chemically induced mutation"	"Phytophthora infestans 90128"	"Arabidopsis thaliana"	"time series design"	"disease state design"	"infection"	"ultra-performance liquid chromatography-mass spectrometry"
-Study Design Type Term Accession Number	"http://www.ebi.ac.uk/efo/EFO_0000370"	""	""	"http://www.ebi.ac.uk/efo/EFO_0001779"	"http://www.ebi.ac.uk/efo/EFO_0001756"	"http://purl.obolibrary.org/obo/OBI_1110021"	"http://purl.obolibrary.org/obo/CHMO_0000715"
-Study Design Type Term Source REF	"EFO"	""	""	"EFO"	"EFO"	"OBI"	"CHMO"
+Study Design Type	"chemically induced mutation"	"Phytophthora infestans 90128"	"time series design"	"disease state design"	"infection"	"ultra-performance liquid chromatography-mass spectrometry"	"diode array detector"	"untargeted metabolites"
+Study Design Type Term Accession Number	"http://www.ebi.ac.uk/efo/EFO_0000370"	""	"http://www.ebi.ac.uk/efo/EFO_0001779"	"http://www.ebi.ac.uk/efo/EFO_0001756"	"http://www.ebi.ac.uk/efo/EFO_0000544"	"http://purl.obolibrary.org/obo/CHMO_0000715"	"http://purl.obolibrary.org/obo/CHMO_0002503"	""
+Study Design Type Term Source REF	"EFO"	""	"EFO"	"EFO"	"EFO"	"CHMO"	"CHMO"	""
 STUDY PUBLICATIONS
 Study PubMed ID	"23072470"
 Study Publication DOI	"10.1111/tpj.12046"
@@ -65,11 +63,11 @@ Study Publication Status Term Accession Number	""
 Study Publication Status Term Source REF	""
 STUDY FACTORS
 Study Factor Name	"Genotype"	"Treatment"	"Sampling time"	"Replicate"
-Study Factor Type	"genotype"	"plant treatment"	"sampling time"	"biological replicate"
-Study Factor Type Term Accession Number	"http://www.ebi.ac.uk/efo/EFO_0000513"	"http://purl.obolibrary.org/obo/EO_0001001"	"http://www.ebi.ac.uk/efo/EFO_0000689"	"http://www.ebi.ac.uk/efo/EFO_0002091"
+Study Factor Type	"genotype"	"plant treatment"	"timepoint"	"biological replicate"
+Study Factor Type Term Accession Number	"http://www.ebi.ac.uk/efo/EFO_0000513"	"http://purl.obolibrary.org/obo/EO_0001001"	"http://www.ebi.ac.uk/efo/EFO_0000724"	"http://www.ebi.ac.uk/efo/EFO_0002091"
 Study Factor Type Term Source REF	"EFO"	"EFO"	"EFO"	"EFO"
 STUDY ASSAYS
-Study Assay File Name	"a_ipb-2014-01_metabolite profiling_mass spectrometry negative.txt"	"a_ipb-2014-01_metabolite profiling_mass spectrometry positive.txt"	"a_ipb-2014-01_metabolite profiling_UV.txt"
+Study Assay File Name	"a_mtbls18_NEG_mass_spectrometry.txt"	"a_mtbls18_POS_mass_spectrometry.txt"	"a_mtbls18_UV.txt"
 Study Assay Measurement Type	"metabolite profiling"	"metabolite profiling"	"metabolite profiling"
 Study Assay Measurement Type Term Accession Number	"http://purl.obolibrary.org/obo/OBI_0000366"	"http://purl.obolibrary.org/obo/OBI_0000366"	"http://purl.obolibrary.org/obo/OBI_0000366"
 Study Assay Measurement Type Term Source REF	"OBI"	"OBI"	"OBI"
@@ -78,20 +76,35 @@ Study Assay Technology Type Term Accession Number	"http://purl.obolibrary.org/ob
 Study Assay Technology Type Term Source REF	"OBI"	"OBI"	"OBI"
 Study Assay Technology Platform	"micrOTOF-Q II ESI-Qq-TOF (Bruker)"	"micrOTOF-Q II ESI-Qq-TOF (Bruker)"	"micrOTOF-Q II ESI-Qq-TOF (Bruker)"
 STUDY PROTOCOLS
-Study Protocol Name	"data collection"	"data transformation"	"nucleic acid extraction"	"labeling"	"nucleic acid hybridization"	"normalization data transformation"	"Metabolite extraction"	"Chromatography"	"Mass spectrometry"	"Data normalization"	"Data transformation"	"Metabolite identification"	"DAD detection"	"DAD data transformation"
-Study Protocol Type	"data collection"	"data transformation"	"RNA extraction"	"labeling"	"nucleic acid hybridization"	"normalization data transformation"	"Extraction"	"Chromatography"	"Mass spectrometry"	"Data normalization"	"Data transformation"	"Metabolite identification"	"Mass spectrometry"	"data transformation"
-Study Protocol Type Term Accession Number	""	""	""	""	""	""	""	""	""	""	""	""	""	""
-Study Protocol Type Term Source REF	""	""	""	""	""	""	""	""	""	""	""	""	""	""
-Study Protocol Description	""	""	"total RNA was isolated according to [http://dx.doi.org/10.1101/pdb.prot5295] and purified using the RNeasy Plant Mini Kit"	"Labelling was performed by AROS APPLIED BIOTECHNOLOGY (Aarhus, Denmark)"	"Nucleic acid hybridisation was performed by AROS APPLIED BIOTECHNOLOGY (Aarhus, Denmark)"	"The processing of the CEL files was performed with the R-package simpleaffy"	"Plant material was homogenized in liquid nitrogen using a pestle and mortar and aliquots of 50 +/- 5 mg were weighed into pre-cooled 2-ml, round bottom tubes. After addition of 100 µL methanol/water, 80/20 (v/v) pre-cooled at –40°C the samples were immediately vortexed for 15 s, sonicated for 15 min at 20°C and centrifuged for 10 min at 19000 x g. The supernatants were transferred to new 2-ml tubes and the remaining pellets subjected to a second extraction using 100 µL methanol/water, 80/20 (v/v). The combined extracts were filtered using 0.2-µm PTFE syringe filters. Three extracts (technical replicates) were prepared for each of the 72 leaf pools."	"Chromatographic separations were performed on an Acquity UPLC system (Waters) equipped with a HSS T3 column (100 × 1.0 mm, particle size 1.8 µm; Waters) with a flow rate of 150 µL/min at 40 °C column temperature using the following gradient program: 0 – 60 s, isocratic 95% A (water/formic acid, 99.9/0.1 (v/v)), 5% B (acetonitrile/formic acid, 99.9/0.1 (v/v)); 60 – 360 s, linear from 5% to 30% B; 360 – 600 s, linear from 30% to 95% B; 600 – 720 s isocratic 95% B. The injection volume was 2.0 µL (full loop injection)."	"Eluting compounds were detected with a spectra rate of 3 Hz from m/z 50 –1000 using a MicrOTOF-Q-II hybrid quadrupole time-of-flight mass spectrometer (Bruker, Daltonics) equipped with an Apollo II electrospray ion source in either positive or negative ion mode with the following instrument settings: nebulizer gas, nitrogen, 1.2 bar; dry gas, nitrogen, 8 L/min, 190°C; capillary,  4500 V; end plate offset, -500 V; funnel 1 RF, 200 Vpp; funnel 2 RF, 200 Vpp; hexapole RF, 100 V. Mass spectra were acquired in centroid mode. Mass calibration of individual raw data files was performed on lithium formate cluster ions obtained by automatic infusion of 20 µL 10 mM lithium hydroxide in isopropanol/water/formic acid, 49.9/49.9/0.2 (v/v/v) at a gradient time of 720 s using a diverter valve."	""	"Raw data files were converted to mzData format using the vendor-specific CompassXport (http://www.bdal.de/) and processed using the XCMS package (http://bioconductor.org/packages/release/bioc/html/xcms.html). XCMS settings for processing LC/MS data with findPeaks.centWave() were prefilter=(3,200); snthr=5; ppm=25; peakwidth=(5,12). For alignment group.density() function with parameters minfrac=0.75 and bw=2 was used."	""	"Elution of metabolites was detected with the help of a Waters Acquity UPLC Photodiode Array (PDA) detector. The DAD signal was acquired from 190 to 500 nm (step 0.25 nm) with a resolution of 0.25 nm, at a frequency of 20 points per second. "	""
-Study Protocol URI	""	""	""	""	""	""	""	""	""	""	""	""	""	""
-Study Protocol Version	""	""	""	""	""	""	""	""	""	""	""	""	""	""
-Study Protocol Parameters Name	""	""	""	""	""	""	"Post Extraction;Derivatization"	"Chromatography Instrument;Column type;Column model"	"Scan polarity;Scan m/z range;Instrument;Mass analyzer;Ion source"	""	""	""	""	""
-Study Protocol Parameters Name Term Accession Number	""	""	""	""	""	""	";"	";;"	";;;;"	""	""	""	""	""
-Study Protocol Parameters Name Term Source REF	""	""	""	""	""	""	";"	";;"	";;;;"	""	""	""	""	""
-Study Protocol Components Name	""	""	""	""	""	""	""	""	""	""	""	""	""	""
-Study Protocol Components Type	""	""	""	""	""	""	""	""	""	""	""	""	""	""
-Study Protocol Components Type Term Accession Number	""	""	""	""	""	""	""	""	""	""	""	""	""	""
-Study Protocol Components Type Term Source REF	""	""	""	""	""	""	""	""	""	""	""	""	""	""
+Study Protocol Name	"Sample collection"	"Extraction"	"Chromatography"	"Mass spectrometry"	"Data transformation"	"Metabolite identification"
+Study Protocol Type	"Sample collection"	"Extraction"	"Chromatography"	"Mass spectrometry"	"Data transformation"	"Metabolite identification"
+Study Protocol Type Term Accession Number	""	""	""	""	""	""
+Study Protocol Type Term Source REF	""	""	""	""	""	""
+Study Protocol Description	"Total RNA was isolated according to[1] and purified using the RNeasy Plant Mini Kit. Labelling was performed by AROS APPLIED BIOTECHNOLOGY (Aarhus, Denmark). Nucleic acid hybridisation was performed by AROS APPLIED BIOTECHNOLOGY (Aarhus, Denmark).
+</p>
+Blumeria graminis f. sp. hordei (Bgh) was propagated on barley (cultivar Ingrid, line I-10). Arabidopsis plants were inoculated using a settling tower, as previously described[2]. To score pathogen invasion and cell death in the epidermis, 3 leaf samples of each genotype were taken at 2 dpi and analyzed microscopically under UV light[3]. 100 interaction sites were scored per leaf. Microscopic analyses were carried out at 6 dpi, and macroscopic phenotypes were monitored at 9 dpi.
+</p>
+The growth of G. cichoracearum (strain UCSC1) and infection of A. thaliana was performed as described by Adam et al. (1999). Microscopic analyses were carried out at 7 dpi. A minimum of 9 leaves of different plants from each genotype was monitored in each experiment.
+</p>
+Bacteria were infiltrated into Arabidopsis rosette leaves using a needleless syringe. For the determination of bacterial growth, P. syringae pv. tomato (Pto DC3000 and Pto DC3000 avrRPM1) was infiltrated at 1 x 105 cfu/ml and P. syringae pv. phaseolicola (Pph) was infiltrated at 1 x 108 cfu/ml.  Immediately after infiltration (0 dpi) and at 4 dpi, bacterial titers were determined. In a minimum of 3 experiments, 3 leaf disks of 9 mm in diameter of 3 different plants per genotype were sampled and ground in 0.2 ml of 10 mm MgCl2. Bacterial growth was determined by plating serial dilutions (3 technical replicates) on nutrient agar plates and counting the cfu after incubation for 2 days at 28 °C.
+</p>
+For callose assays, Pto DC3000 avrRPM1 was infiltrated at 5 x 105 cfu/ml and aniline blue staining was performed 2 dpi.
+</p>
+Ref:</br>
+[1] Ahn Ji H. RNA Extraction from Arabidopsis for Northern Blots and Reverse Transcriptase-PCR. Adapted from Arabidopsis: A Laboratory Manual (eds. Weigel and Glazebrook). CSHL Press, Cold Spring Harbor, NY, USA, 2002. http://dx.doi.org/10.1101/pdb.prot5295</br>
+[2] Zimmerli L, Stein M, Lipka V, Schulze-Lefert P, Somerville S. Host and non-host pathogens elicit different jasmonate/ethylene responses in Arabidopsis. Plant J. 2004 Dec;40(5):633-46. doi:10.1111/j.1365-313X.2004.02236.x. PMID:15546348</br>
+[3] Lipka V, Dittgen J, Bednarek P, Bhat R, Wiermer M, Stein M, Landtag J, Brandt W, Rosahl S, Scheel D, Llorente F, Molina A, Parker J, Somerville S, Schulze-Lefert P. Pre- and postinvasion defenses both contribute to nonhost resistance in Arabidopsis. Science. 2005 Nov 18;310(5751):1180-3. doi:10.1126/science.1119409. PMID:16293760</br>"	"Plant material was homogenized in liquid nitrogen using a pestle and mortar and aliquots of 50 +/- 5 mg were weighed into pre-cooled 2-ml, round bottom tubes. After addition of 100 µl methanol/water, 80/20 (v/v) pre-cooled at –40 °C the samples were immediately vortexed for 15 s, sonicated for 15 min at 20 °C and centrifuged for 10 min at 19000 x g. The supernatants were transferred to new 2-ml tubes and the remaining pellets subjected to a second extraction using 100 µl methanol/water, 80/20 (v/v). The combined extracts were filtered using 0.2-µm PTFE syringe filters. 3 extracts (technical replicates) were prepared for each of the 72 leaf pools."	"Chromatographic separations were performed on an Acquity UPLC system (Waters) equipped with a HSS T3 column (100 x 1.0 mm, particle size 1.8 µm; Waters) with a flow rate of 150 µl/min at 40 °C column temperature using the following gradient program: 0-60 s, isocratic 95% A (water/formic acid, 99.9/0.1 (v/v)), 5% B (acetonitrile/formic acid, 99.9/0.1 (v/v)); 60-360 s, linear from 5% to 30% B; 360-600 s, linear from 30% to 95% B; 600-720 s isocratic 95% B. The injection volume was 2.0 µl (full loop injection).
+</p>
+Elution of metabolites was detected with the help of a Waters Acquity UPLC Photodiode Array (PDA) detector. The DAD signal was acquired from 190 to 500 nm (step 0.25 nm) with a resolution of 0.25 nm, at a frequency of 20 points/s."	"Eluting compounds were detected with a spectra rate of 3 Hz from m/z 50–1000 using a MicrOTOF-Q-II hybrid quadrupole time-of-flight mass spectrometer (Bruker, Daltonics) equipped with an Apollo II electrospray ion source in either positive or negative ion mode with the following instrument settings: nebulizer gas, nitrogen, 1.2 bar; dry gas, nitrogen, 8 l/min, 190 °C; capillary, 4500 V; end plate offset, -500 V; funnel 1 RF, 200 Vpp; funnel 2 RF, 200 Vpp; hexapole RF, 100 V. Mass spectra were acquired in centroid mode. Mass calibration of individual raw data files was performed on lithium formate cluster ions obtained by automatic infusion of 20 µl 10 mM lithium hydroxide in isopropanol/water/formic acid, 49.9/49.9/0.2 (v/v/v) at a gradient time of 720 s using a diverter valve."	"Raw data files were converted to mzData format using the vendor-specific CompassXport (http://www.bdal.de/) and processed using the XCMS package (http://bioconductor.org/packages/release/bioc/html/xcms.html). XCMS settings for processing LC/MS data with findPeaks.centWave() were prefilter=(3,200); snthr=5; ppm=25; peakwidth=(5,12). For alignment group.density() function with parameters minfrac=0.75 and bw=2 was used. The processing of the CEL files was performed with the R-package simpleaffy."	"Currently no metabolite identification information included in this study."
+Study Protocol URI	""	""	""	""	""	""
+Study Protocol Version	""	""	""	""	""	""
+Study Protocol Parameters Name	""	"Post Extraction;Derivatization"	"Chromatography Instrument;Column type;Column model;Detector;Signal range;Resolution"	"Scan polarity;Scan m/z range;Instrument;Mass analyzer;Ion source"	""	""
+Study Protocol Parameters Name Term Accession Number	""	";"	";;;;;"	";;;;"	""	""
+Study Protocol Parameters Name Term Source REF	""	";"	";;;;;"	";;;;"	""	""
+Study Protocol Components Name	""	""	""	""	""	""
+Study Protocol Components Type	""	""	""	""	""	""
+Study Protocol Components Type Term Accession Number	""	""	""	""	""	""
+Study Protocol Components Type Term Source REF	""	""	""	""	""	""
 STUDY CONTACTS
 Study Person Last Name	"Neumann"	"Rosahl"	"Lübken"	"Westphal"	"Czamperla"	"Kopischke"	"Scheel"
 Study Person First Name	"Steffen"	"Sabine"	"Tilo"	"Lore"	"Kathrin"	"Michaela"	"Dierk"
