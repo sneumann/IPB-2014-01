@@ -1,0 +1,69 @@
+---
+title: "Chapter 4 Figures"
+author: "Sreffen Neumann"
+date: "May 28, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Box 4.1
+
+Excerpt from an mzML file (this was Challenge 17 of the 2012 CASMI contest, http://www.casmi-contest.org/challenges-cat1-2.shtml), with some of the (meta)data highlighted in boldface. This is an MS/MS spectrum with 90 eV collision energy of the precursor with 212.12 m/z, eluting at 0.49 minutes. The actual spectrum is base64 encoded in a binary data array, and not human-readable. The encoding has the benefit of fully preserving the numerical accuracy. For readability, non-informative XML attributes like cvRef="MS", or unitCvRef="UO" and value="" have been omitted. 
+
+```xml
+<spectrum index="53" id="controllerType=0 controllerNumber=1 scan=54" defaultArrayLength="26">
+ <cvParam accession="MS:1000580" name="MSn spectrum" />
+ <cvParam accession="MS:1000511" name="ms level" value="2" />
+ <cvParam accession="MS:1000130" name="positive scan" />
+ <cvParam accession="MS:1000285" name="total ion current" value="99364.1171875"/>
+ <scanList count="1">
+ <cvParam accession="MS:1000795" name="no combination" />
+ <scan>
+ <cvParam accession="MS:1000016" name="scan start time" value="0.492676666667" unitAccession="UO:0000031" unitName="minute"/>
+ <cvParam accession="MS:1000512" name="filter string" value="FTMS + p ESI Full ms2 212.12@hcd90.00 [50.00-250.00]"/>
+ </scan>
+ </scanList>
+ <precursorList count="1">
+ <precursor spectrumRef="controllerType=0 controllerNumber=1 scan=51">
+ <isolationWindow>
+ <cvParam accession="MS:1000827" name="isolation window target m/z" value="212.12" unitAccession="MS:1000040" unitName="m/z"/>
+ <cvParam accession="MS:1000828" name="isolation window lower offset" value="1.0" unitAccession="MS:1000040" unitName="m/z"/>
+ <cvParam accession="MS:1000829" name="isolation window upper offset" value="1.0" unitAccession="MS:1000040" unitName="m/z"/>
+ </isolationWindow>
+ <selectedIonList count="1">
+ <selectedIon>
+ <cvParam accession="MS:1000744" name="selected ion m/z" value="212.12" unitAccession="MS:1000040" unitName="m/z"/>
+ <cvParam accession="MS:1000042" name="peak intensity" value="4533.17236328125" unitAccession="MS:1000131" unitName="number of counts"/>
+ </selectedIon>
+ </selectedIonList>
+ <activation>
+ <cvParam accession="MS:1000422" name="high-energy collision-induced dissociation" value=""/>
+ <cvParam accession="MS:1000045" name="collision energy" value="90.0" unitAccession="UO:0000266" unitName="electronvolt"/>
+ </activation>
+ </precursor>
+ </precursorList>
+ <binaryDataArrayList count="2">
+ <binaryDataArray encodedLength="280">
+ <cvParam accession="MS:1000523" name="64-bit float" value=""/>
+ <cvParam accession="MS:1000576" name="no compression" value=""/>
+ <cvParam accession="MS:1000514" name="m/z array" unitAccession="MS:1000040" unitName="m/z"/>
+ <binary>AAAAg...AcBSkAAAAC</binary>
+ </binaryDataArray>
+ <binaryDataArray encodedLength="280">
+ <cvParam accession="MS:1000523" name="64-bit float" value=""/>
+ <cvParam accession="MS:1000576" name="no compression" value=""/>
+ <cvParam accession="MS:1000515" name="intensity array" unitAccession="MS:1000131" unitName="number of counts"/>
+ <binary>AAAAQGWYo...0AAAAAAH9CnQAAAAKAb</binary>
+ </binaryDataArray>
+ </binaryDataArrayList>
+</spectrum>
+```
+
+## Figure 4.2
+Left: A three dimensional view of MS raw data in grey and the superimposed bounding boxes of detected features. 
+
+Right: A closeup on one of the peaks.
+
