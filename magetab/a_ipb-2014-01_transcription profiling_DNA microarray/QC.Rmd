@@ -1,0 +1,104 @@
+---
+title: E-MTAB-3287 - Transcriptional response of Arabidopsis thaliana wildtype and mutants to Phytophtora infestans
+author: "Steffen Neumann et al."
+date: "02.08.2016"
+output: html_document
+---
+
+Load libraries and Arabidopsis annotation:
+
+```{r load libraries}
+library(simpleaffy)
+library(ath1121501.db)
+library(arrayQualityMetrics)
+```
+
+Load libraries and Arabidopsis annotation:
+
+```{r load data}
+#setwd("/vol/bioinvindex/Submissions/IPB-2014-01/celdata.real/")
+#dpath <- "/vol/bioinvindex/Submissions/IPB-2014-01/celdata.real/"
+
+setwd("/home/sneumann/tex/papers/2014datascience/a_ipb-2014-01_transcription profiling_DNA microarray")
+dpath <- "/home/sneumann/tex/papers/2014datascience/a_ipb-2014-01_transcription profiling_DNA microarray"
+
+covdescfile <- "Plan_alle.csv"
+
+abatch <- read.affy(path=dpath,covdesc=covdescfile)
+sampleNames(abatch) <- sapply(strsplit(sampleNames(abatch), ".", fixed=TRUE), 
+                            function(x) x[1])
+pd <- pData(abatch)
+```
+
+Plot raw data distribution:
+
+```{r prenormboxplot, echo=FALSE}
+op <- par(mar = c(10,4,4,2) + 0.1)
+boxplot(abatch, 
+        col=pd[,"sample"], 
+        las=2, cex.axis=0.66)
+par(op)
+```
+
+and the histogram/density plot:
+```{r prenormhist, echo=FALSE}
+hist(abatch, col=pd[,"sample"], lty=pd[,"sample"])
+legend("topright",legend=pd[,"sample"],
+       col=pd[,"sample"], lty=pd[,"sample"], 
+       ncol=4, cex=0.66, pt.cex=1)
+```
+
+```{r normalisation}
+eset <- rma(abatch)
+data <- exprs(eset)
+```
+
+and the boxplot after RMA normalisation:
+
+```{r postnormboxplot, echo=FALSE}
+op <- par(mar = c(10,4,4,2) + 0.1)
+boxplot(data, 
+        col=pd[,"sample"], outline=FALSE,
+        las=2, cex.axis=0.66)
+par(op)
+```
+
+Histogram density after RMA normalisation:
+
+```{r postnormhist, echo=FALSE}
+plotDensity(data, 
+            col=pd[,"sample"], lty=pd[,"sample"],
+            xlab="log intensity")
+legend("topright",legend=pd[,"sample"],
+       col=pd[,"sample"], lty=pd[,"sample"], 
+       ncol=4, cex=0.66, pt.cex=1)
+```
+
+```{r arrayQualityMetrics}
+arrayQualityMetrics(expressionset = eset,
+                    outdir = "./E-MTAB-3287",
+                    force = TRUE,
+                    do.logtransform = FALSE)
+```
+
+![My caption.](arrayQualityMetrics/box.png) 
+
+Fix sample names to match E-MTAB-3287 AssayNames
+
+```{r exportAE}
+
+firstRow <- c("Hybridization REF", sampleNames(eset))
+secondRow <- c("Reporter REF", rep("log2", times=72))
+remainingRows <- cbind(ProbeSetID=rownames(data), data)
+
+write.table(rbind(firstRow, secondRow, remainingRows),
+            file="expression_simpleaffy_rma_log2.txt",
+            quote=FALSE, sep="\t", row.names=FALSE, col.names=FALSE)
+system("zip E-MTAB-3287.preprocessed.1.zip expression_simpleaffy_rma_log2.txt")
+
+```
+
+
+```{r sessionInfo}
+sessionInfo()
+```
