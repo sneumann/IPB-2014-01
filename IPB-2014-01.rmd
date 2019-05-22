@@ -180,7 +180,7 @@ and the PCA of the samples.
   plotPcs(pca.result, type="loadings", main="PCA by genotype",
           col=phenoData(mtblsSet)[,"Factor Value[Genotype]"])
 
-  injection <- as.numeric(sub(".*_([0-9]+).mzData", "\\1", 
+  injection <- as.numeric(sub(".*_([0-9]+).mzML", "\\1", 
                               filepaths(mtblsSet),perl=TRUE))
   samplecolor <- rainbow(length(injection))[rank(injection)]
   plotPcs(pca.result, type="loadings", 
